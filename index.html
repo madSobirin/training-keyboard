@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typing Master - Latihan Mengetik</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Typing Master</h1>
+        <p class="subtitle">Latihan mengetik 10 jari dengan kata home row</p>
+      </header>
+
+      <div class="timer-container">
+        <div id="timer" class="timer">01:00</div>
+      </div>
+
+      <div class="progress-container">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+
+      <div class="word-container">
+        <div id="wordRow" class="word-row">sad lad dash ask fall</div>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="text"
+          id="inputBox"
+          class="input-box"
+          placeholder="Ketik kata di atas lalu tekan spasi..."
+          autofocus
+        />
+      </div>
+
+      <div class="stats-container">
+        <div class="stat-card">
+          <div id="wpmStat" class="stat-value">0</div>
+          <div class="stat-label">WPM</div>
+        </div>
+        <div class="stat-card">
+          <div id="accuracyStat" class="stat-value">0%</div>
+          <div class="stat-label">Akurasi</div>
+        </div>
+        <div class="stat-card">
+          <div id="wordsStat" class="stat-value">0</div>
+          <div class="stat-label">Kata</div>
+        </div>
+      </div>
+
+      <div id="results" class="results">
+        <h2>Hasil Tes Mengetik</h2>
+
+        <div class="result-stats">
+          <div class="result-stat">
+            <div id="finalWpm" class="result-value">0</div>
+            <div class="result-label">Kata Per Menit</div>
+          </div>
+          <div class="result-stat">
+            <div id="finalAccuracy" class="result-value">0%</div>
+            <div class="result-label">Akurasi</div>
+          </div>
+          <div class="result-stat">
+            <div id="finalCorrect" class="result-value">0</div>
+            <div class="result-label">Kata Benar</div>
+          </div>
+          <div class="result-stat">
+            <div id="finalErrors" class="result-value">0</div>
+            <div class="result-label">Kesalahan</div>
+          </div>
+        </div>
+
+        <button class="btn" onclick="resetTest()">Ulangi Tes</button>
+      </div>
+    </div>
+    <script src="js/script.js"></script>
+  </body>
+</html>
