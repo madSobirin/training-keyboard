@@ -24,13 +24,15 @@ let wordCount = 0;
 let errors = 0;
 let startTime = null;
 let timerInterval = null;
-let timeLeft = 60; // 1 menit dalam detik
+let timeLeft = 60; // Default 1 minute in seconds
+let testDuration = 60; // Store the selected duration
 
 const wordRow = document.getElementById("wordRow");
 const inputBox = document.getElementById("inputBox");
 const timer = document.getElementById("timer");
 const results = document.getElementById("results");
 const progressBar = document.getElementById("progressBar");
+const timeOptions = document.getElementById("timeOptions");
 
 // Stat elements
 const wpmStat = document.getElementById("wpmStat");
@@ -93,12 +95,12 @@ function updateTimerDisplay() {
 }
 
 function updateProgressBar() {
-  const progress = ((60 - timeLeft) / 60) * 100;
+  const progress = ((testDuration - timeLeft) / testDuration) * 100;
   progressBar.style.width = `${progress}%`;
 }
 
 function updateStats() {
-  const elapsed = (60 - timeLeft) / 60; // dalam menit
+  const elapsed = (testDuration - timeLeft) / 60; // in minutes
   const wpm = Math.round(wordCount / elapsed || 0);
   const accuracy =
     wordCount > 0 ? Math.round(((wordCount - errors) / wordCount) * 100) : 0;
@@ -112,12 +114,12 @@ function endTest() {
   clearInterval(timerInterval);
   inputBox.disabled = true;
 
-  const elapsed = (60 - timeLeft) / 60; // dalam menit
+  const elapsed = (testDuration - timeLeft) / 60; // in minutes
   const wpm = Math.round(wordCount / elapsed || 0);
   const accuracy =
     wordCount > 0 ? Math.round(((wordCount - errors) / wordCount) * 100) : 0;
 
-  // Tampilkan hasil
+  // Show results
   finalWpm.textContent = wpm;
   finalAccuracy.textContent = `${accuracy}%`;
   finalCorrect.textContent = wordCount - errors;
@@ -130,14 +132,14 @@ function endTest() {
 }
 
 function resetTest() {
-  // Reset semua variabel
+  // Reset all variables
   currentIndex = 0;
   wordCount = 0;
   errors = 0;
   startTime = null;
-  timeLeft = 60;
+  timeLeft = testDuration;
 
-  // Reset tampilan
+  // Reset display
   inputBox.disabled = false;
   inputBox.value = "";
   inputBox.focus();
@@ -153,10 +155,17 @@ function resetTest() {
   ).getPropertyValue("--primary");
   timer.style.background = primaryColor;
 
-  // Mulai timer lagi
+  // Clear any existing timer
   clearInterval(timerInterval);
 }
 
+function setTestDuration(duration) {
+  testDuration = duration;
+  timeLeft = duration;
+  resetTest();
+}
+
+// Event listeners
 inputBox.addEventListener("input", (event) => {
   const typedRaw = inputBox.value;
   const typed = typedRaw.trim();
@@ -164,10 +173,10 @@ inputBox.addEventListener("input", (event) => {
 
   if (typed.length === 1 && !startTime) {
     startTime = new Date();
-    startTimer(); // Mulai timer saat pertama kali mengetik
+    startTimer(); // Start timer on first keystroke
   }
 
-  // Jika tekan spasi
+  // If space is pressed
   if (typedRaw.endsWith(" ")) {
     if (typed === currentWord) {
       wordCount++;
@@ -178,7 +187,7 @@ inputBox.addEventListener("input", (event) => {
     inputBox.value = "";
     currentIndex++;
 
-    // Ganti kata jika sudah semua
+    // Load new words if we've reached the end
     if (currentIndex >= currentWords.length) {
       loadWords();
     } else {
@@ -189,6 +198,20 @@ inputBox.addEventListener("input", (event) => {
   }
 });
 
-// Inisialisasi
+// Time option buttons
+document.querySelectorAll(".time-option").forEach((button) => {
+  button.addEventListener("click", function () {
+    const duration = parseInt(this.getAttribute("data-duration"));
+    setTestDuration(duration);
+
+    // Update active state
+    document.querySelectorAll(".time-option").forEach((btn) => {
+      btn.classList.remove("active");
+    });
+    this.classList.add("active");
+  });
+});
+
+// Initialize
 updateTimerDisplay();
 loadWords();

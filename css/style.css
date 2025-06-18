@@ -245,6 +245,32 @@ h1 {
   transition: width 0.3s;
 }
 
+.time-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.time-option {
+  padding: 8px 16px;
+  background: var(--background);
+  border: 1px solid var(--primary);
+  color: var(--text);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.time-option:hover {
+  background: var(--primary-light);
+}
+
+.time-option.active {
+  background: var(--primary);
+  color: white;
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 20px;
